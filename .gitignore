@@ -26,7 +26,7 @@ erl_crash.dump
 huai-*.tar
 
 # Ignore assets that are produced by build tools.
-/priv/static/assets/
+/priv/static/
 
 # Ignore digested assets cache.
 /priv/static/cache_manifest.json
@@ -34,4 +34,4 @@ huai-*.tar
 # In case you use Node.js/npm, you want to ignore these.
 npm-debug.log
 /assets/node_modules/
-
+node_modules
