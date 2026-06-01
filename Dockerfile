@@ -46,17 +46,10 @@ RUN mix release
 FROM ${RUNNER_IMAGE}
 
 RUN apt-get update -y \
-  && apt-get install -y libstdc++6 openssl libncurses6 locales ca-certificates curl \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update -y \
   && apt-get install -y libstdc++6 openssl libncurses6 locales ca-certificates curl python3 \
-  && curl -LsSf https://astral.sh/uv/install.sh | sh \
+  && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-
-  ENV PATH="/root/.local/bin:$PATH"
 
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
@@ -66,6 +59,7 @@ ENV LC_ALL=en_US.UTF-8
 
 WORKDIR /app
 RUN chown nobody /app
+RUN mkdir -p /app/snex && chown -R nobody:nogroup /app/snex
 
 ENV MIX_ENV="prod"
 
