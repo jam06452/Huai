@@ -17,7 +17,7 @@ defmodule HuaiWeb.Router do
   scope "/", HuaiWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", DocumentLive
   end
 
   # Other scopes may use custom stacks.

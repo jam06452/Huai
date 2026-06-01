@@ -11,6 +11,7 @@ defmodule Huai.Application do
       HuaiWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:huai, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Huai.PubSub},
+      {Huai.Python, [init_script: "from markitdown import MarkItDown", name: Huai.Python]},
       # Start a worker by calling: Huai.Worker.start_link(arg)
       # {Huai.Worker, arg},
       # Start to serve requests, typically the last entry
