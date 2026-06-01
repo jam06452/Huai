@@ -21,7 +21,7 @@ if System.get_env("PHX_SERVER") do
 end
 
 config :huai, :ai,
-  url: System.get_env("OPENAI_URL"),
+  url: System.get_env("OPENAI_ENDPOINT"),
   key: System.get_env("OPENAI_KEY")
 
 config :huai, HuaiWeb.Endpoint, http: [port: String.to_integer(System.get_env("PORT", "4000"))]
