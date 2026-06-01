@@ -6,18 +6,13 @@ ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 
 FROM ${BUILDER_IMAGE} AS builder
 
-RUN apt-get update -y \
-  && apt-get install -y build-essential git \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y \
-  && apt-get install -y build-essential git curl \
-  && curl -LsSf https://astral.sh/uv/install.sh | sh \
+  && apt-get install -y build-essential git curl python3 \
+  && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-
-  ENV PATH="/root/.local/bin:$PATH"
 
 WORKDIR /app
 
@@ -38,12 +33,13 @@ COPY lib lib
 RUN mix compile
 RUN mix assets.deploy
 
-# Build release
 COPY config/runtime.exs config/
 COPY rel rel
 RUN mix release
 
 FROM ${RUNNER_IMAGE}
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y \
   && apt-get install -y libstdc++6 openssl libncurses6 locales ca-certificates curl python3 \
@@ -59,11 +55,11 @@ ENV LC_ALL=en_US.UTF-8
 
 WORKDIR /app
 RUN chown nobody /app
-RUN mkdir -p /app/snex && chown -R nobody:nogroup /app/snex
 
 ENV MIX_ENV="prod"
 
 COPY --from=builder --chown=nobody:root /app/_build/prod/rel/huai ./
+COPY --from=builder --chown=nobody:nogroup /app/_build/prod/snex /app/snex
 
 USER nobody
 
