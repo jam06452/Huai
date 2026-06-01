@@ -20,6 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :huai, HuaiWeb.Endpoint, server: true
 end
 
+config :huai, :ai,
+  url: System.get_env("OPENAI_URL"),
+  key: System.get_env("OPENAI_KEY")
+
 config :huai, HuaiWeb.Endpoint, http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 
 if config_env() == :prod do
