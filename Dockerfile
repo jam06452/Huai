@@ -50,6 +50,14 @@ RUN apt-get update -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update -y \
+  && apt-get install -y libstdc++6 openssl libncurses6 locales ca-certificates curl python3 \
+  && curl -LsSf https://astral.sh/uv/install.sh | sh \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+  ENV PATH="/root/.local/bin:$PATH"
+
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
 
 ENV LANG=en_US.UTF-8
