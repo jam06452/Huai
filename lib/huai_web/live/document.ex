@@ -48,7 +48,7 @@ defmodule HuaiWeb.DocumentLive do
     <%= if @markdown_result do %>
       <div class="mt-8 p-6 bg-base-200 rounded-lg shadow prose max-w-none dark:prose-invert">
         <input type="text" id="control-codes" value={@markdown_result} class="hidden" />
-        {raw(@markdown_result)}
+        {raw(MDEx.to_html!(@markdown_result))}
       </div>
     <% end %>
     """
@@ -74,7 +74,7 @@ defmodule HuaiWeb.DocumentLive do
 
       Task.start(fn ->
         case Huai.Python.convert(path) do
-          {:ok, markdown} -> send(socket_pid, {:conversion_done, MDEx.to_html!(markdown)})
+          {:ok, markdown} -> send(socket_pid, {:conversion_done, markdown})
           {:error, reason} -> send(socket_pid, {:conversion_error, reason})
         end
       end)

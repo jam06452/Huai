@@ -22,22 +22,18 @@ defmodule Huai.Python do
       env,
       """
       from openai import OpenAI
-      from markitdown import MarkItDown # 2. Added missing import
-
+      from markitdown import MarkItDown
       client = OpenAI(
           api_key=api_key,
           base_url=base_url
       )
-
-      # 3. Fixed Python indentation so everything aligns
       md = MarkItDown(
           enable_plugins=True,
           llm_client=client,
           llm_model="gpt-4o"
       )
-
       result = md.convert(filepath)
-      return result.text_content # 4. Return the string, not the object
+      return result.text_content
       """,
       timeout: 300_000
     )
