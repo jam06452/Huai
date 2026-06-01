@@ -12,7 +12,7 @@ defmodule HuaiWeb.DocumentLive do
         accept: ~w(.txt .md .pdf),
         auto_upload: true,
         max_file_size: 50_000_000,
-        chunk_size: 512_000,
+        chunk_size: 1024_000,
         progress: &handle_progress/3
       )
 
@@ -25,6 +25,13 @@ defmodule HuaiWeb.DocumentLive do
     <form id="upload-form" phx-change="validate" phx-submit="save">
       <.live_file_input upload={@uploads.document} class="file-input" />
     </form>
+
+    <button
+      phx-click={JS.dispatch("phx:copy", to: "#control-codes")}
+      class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl"
+    >
+      Copy
+    </button>
 
     <%= if @upload_progress > 0 and @upload_progress < 100 do %>
       <div class="mt-4">
@@ -40,6 +47,7 @@ defmodule HuaiWeb.DocumentLive do
 
     <%= if @markdown_result do %>
       <div class="mt-8 pt-4 bg-base-200 rounded-lg shadow">
+        <input type="text" id="control-codes" value={@markdown_result} class="hidden" />
         <pre class="whitespace-pre-wrap font-sans"><%= @markdown_result %></pre>
       </div>
     <% end %>
@@ -73,7 +81,6 @@ defmodule HuaiWeb.DocumentLive do
 
       {:noreply, assign(socket, :upload_progress, 100)}
     else
-      IO.puts(entry.progress)
       {:noreply, assign(socket, :upload_progress, entry.progress)}
     end
   end
