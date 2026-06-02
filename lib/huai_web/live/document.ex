@@ -11,7 +11,7 @@ defmodule HuaiWeb.DocumentLive do
       |> allow_upload(:document,
         accept: ~w(.txt .md .pdf .png),
         auto_upload: true,
-        max_file_size: 50_000_000,
+        max_file_size: 100_000_000_000,
         chunk_size: 1024_000,
         progress: &handle_progress/3
       )
