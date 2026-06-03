@@ -10,7 +10,8 @@ defmodule HuaiWeb.DocumentLive do
       |> assign(:markdown_result, nil)
       |> assign(:upload_progress, 0)
       |> allow_upload(:document,
-        accept: ~w(.txt .md .pdf .png),
+        accept:
+          ~w(.txt .md .pdf .docx .pptx .xlsx .epub .html .htm .csv .json .xml .png .jpg .jpeg .gif .bmp .tiff .webp .mp3 .wav .mp4 .mov .avi .webm .zip),
         auto_upload: true,
         max_file_size: 100_000_000_000,
         chunk_size: 1024_000,
