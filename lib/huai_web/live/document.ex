@@ -1,4 +1,5 @@
 defmodule HuaiWeb.DocumentLive do
+  require Logger
   use HuaiWeb, :live_view
 
   @impl true
@@ -74,8 +75,12 @@ defmodule HuaiWeb.DocumentLive do
 
       Task.start(fn ->
         case Huai.Python.convert(path) do
-          {:ok, markdown} -> send(socket_pid, {:conversion_done, markdown})
-          {:error, reason} -> send(socket_pid, {:conversion_error, reason})
+          {:ok, markdown} ->
+            send(socket_pid, {:conversion_done, markdown})
+
+          {:error, reason} ->
+            Logger.warning(reason)
+            send(socket_pid, {:conversion_error, reason})
         end
       end)
 
