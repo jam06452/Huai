@@ -42,7 +42,7 @@ FROM ${RUNNER_IMAGE}
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y \
-  && apt-get install -y libstdc++6 openssl libncurses6 locales ca-certificates curl python3 \
+  && apt-get install -y libstdc++6 openssl libncurses6 locales ca-certificates curl python3 ffmpeg\
   && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
